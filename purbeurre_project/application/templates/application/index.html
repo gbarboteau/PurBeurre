@@ -15,11 +15,11 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Pur Beurre vous permettra de trouver des substituts plus sains à tous vos produits favoris !<br/>Voyez par vous-même, faites une recherche ci-dessous !</p>
                         <div class="col-12 d-flex justify-content-center">
-                            <form>
+                            <form action="{% url 'search' %}" method="get"  accept-charset="utf-8">
                               <div class="form-row align-items-center">
                                 <div class="col-sm-10">
                                   <label class="sr-only" for="inlineFormInput">Search</label>
-                                  <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Recherche...">
+                                  <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Recherche..." name="query" value="two">
                                 </div>
                                 <div class="col-sm-2">
                                   <button type="submit" class="btn btn-primary mb-2">OK</button>

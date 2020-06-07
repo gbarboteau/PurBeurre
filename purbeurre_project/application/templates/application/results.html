@@ -1,0 +1,47 @@
+        {% extends 'application/base.html' %}
+
+
+        {% block content %}
+        {% load static %}
+
+        <!-- Masthead-->
+        <!-- <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 d-flex align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase text-white font-weight-bold">Du gras, oui, mais de qualité !</h1>
+                        <hr class="divider my-4" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5">Pur Beurre vous permettra de trouver des substituts plus sains à tous vos produits favoris !<br/>Voyez par vous-même, faites une recherche ci-dessous !</p>
+                        <div class="col-12 d-flex justify-content-center">
+                            <form>
+                              <div class="form-row align-items-center">
+                                <div class="col-sm-10">
+                                  <label class="sr-only" for="inlineFormInput">Search</label>
+                                  <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Recherche...">
+                                </div>
+                                <div class="col-sm-2">
+                                  <button type="submit" class="btn btn-primary mb-2">OK</button>
+                                </div>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header> -->
+          <div class="clearfix"></div>
+			  <nav aria-label="...">
+			    <ul class="pager">
+			      {% if albums.has_previous %}
+			          <li><a href="?page={{ products.previous_page_number }}">Précédent</a></li>
+			      {% endif %}
+			      {% if albums.has_next %}
+			          <li><a href="?page={{ products.next_page_number }}">Suivant</a></li>
+			      {% endif %}
+			    </ul>
+			  </nav>
+		</div>
+
+        {% endblock %}

@@ -22,7 +22,7 @@ class DataCollecter:
         my_connection = psycopg2.connect(user=my_auth.user, password=my_auth.password, host = "127.0.0.1", port = "5432", database='purbeurre')
         cursor = my_connection.cursor()
         self.categories = []
-        query = ('SELECT category_name FROM category ')
+        query = ('SELECT category_name FROM application_category ')
         cursor.execute(query)
         for category_name in cursor:
             self.categories.append(category_name[0])

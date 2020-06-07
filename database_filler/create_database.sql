@@ -15,12 +15,12 @@ CREATE TABLE Category(
 
 CREATE TABLE Aliment (
     id SERIAL PRIMARY KEY,
-    product_name varchar(100) NOT NULL UNIQUE,
-    product_description text,
+    name varchar(100) NOT NULL UNIQUE,
+    description text,
     barcode varchar(20) NOT NULL,
     nutritional_score char(1) NOT NULL,
     stores varchar(200),
-    product_category varchar(100) NOT NULL,
+    category varchar(100) NOT NULL,
     picture text NOT NULL,
     CONSTRAINT fk_product_category FOREIGN KEY (product_category) REFERENCES Category(category_name)
 );
@@ -42,7 +42,7 @@ CREATE TABLE Swap(
     CONSTRAINT fk_substitute_id FOREIGN KEY (substitute_id) REFERENCES Aliment(id)
 );
 
-INSERT INTO Category(category_name, category_url) VALUES
+INSERT INTO Application_Category(category_name, category_url) VALUES
 ('Compotes', 'https://fr.openfoodfacts.org/categorie/compotes'),
 ('Bonbons de chocolat', 'https://fr.openfoodfacts.org/categorie/bonbons-de-chocolat'),
 ('Sodas', 'https://fr.openfoodfacts.org/categorie/sodas'),

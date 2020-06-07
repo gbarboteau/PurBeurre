@@ -31,6 +31,50 @@
                 </div>
             </div>
         </header>
-        
+        <!-- <div class="col-lg-12 detail-separator">
+          <form class="col-md-6 col-md-offset-3 text-center" action="{% url 'search' %}" method="get" accept-charset="utf-8">
+            <div class="form-group">
+              <label for="searchForm">Chercher un disque</label>
+              <input id="searchForm" class="form-control">
+            </div>
+            <span class="help-block" id="helpBlock">Trouvez le CD de vos rêves en tapant son titre ou le nom d'un des artistes.</span>
+          </form>
+        </div> -->
+
+        {% if aliments|length_is:"0" %}
+            <div class="text-center">
+              Palsambleu ! Nous n'avons trouvé aucun résultat à cette requête. Même pas de quoi se ronger la chique !
+              Partez de nouveau à l'abordage !
+            </div>
+
+        {% else %}
+            {% for aliment in aliments %}
+                <div class="col-sm-4 text-center">
+                    <a href="/aliment/{{ aliment.id }}">
+                      <img class="img-responsive" src="{{ aliment.picture }}" alt="{{ aliment.name }}">
+                    </a>
+                    <h3>{{ aliment.name }}</a></h3>
+                    <!-- {% for artist in aliment.artists.all %}
+                        <p>{{ artist.name }}</p>
+                    {% endfor %} -->
+                </div>
+                {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+        {% if paginate %}
+          <div class="clearfix"></div>
+          <nav aria-label="">
+            <ul class="pager">
+              {% if aliments.has_previous %}
+                  <li><a href="?page={{ aliments.previous_page_number }}">Précédent</a></li>
+              {% endif %}
+              {% if aliments.has_next %}
+                  <li><a href="?page={{ aliments.next_page_number }}">Suivant</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        {% endif %}
 
         {% endblock %}

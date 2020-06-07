@@ -24,8 +24,8 @@ class Filler:
             prod_name = i['product_name']
             print(prod_name)
             try:
-                add_aliment = ('INSERT INTO aliment '
-                       '(product_name, product_description, barcode, nutritional_score, stores, product_category, picture) '
+                add_aliment = ('INSERT INTO application_aliment '
+                       '(name, description, barcode, nutriscore, stores, category, picture) '
                        'VALUES (%s, %s, %s, %s, %s, %s, %s)')
                 data_aliment = (i['product_name'].replace("'", "''"), i['product_description'].replace("'", "''"), i['barcode'].replace("'", "''"), i['nutritional_score'].replace("'", "''"), i['stores'].replace("'", "''"), i['product_category'].replace("'", "''"), i['picture'].replace("'", "''"))
                 cursor.execute(add_aliment, data_aliment)

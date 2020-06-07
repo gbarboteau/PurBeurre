@@ -28,8 +28,8 @@
                 <a class="navbar-brand js-scroll-trigger" href="/"><img src="{% static 'application/img/logo_pur_beurre-favicon.png' %}"></img> Pur Beurre</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0 align-middle">
-                        <form class="form-inline my-2 my-lg-0">
-                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Recherche...">
+                        <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get"  accept-charset="utf-8">
+                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Recherche..." name="query" value="one">
                           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">OK</button>
                         </form>
 

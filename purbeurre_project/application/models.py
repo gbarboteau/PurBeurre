@@ -1,21 +1,24 @@
 from django.db import models
 from django.forms import ModelForm
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Product(models.Model):
-    product_id = models.IntegerField(null=True)
+class Category(models.Model):
+    category_id = models.IntegerField(null=True)
+    category_name = models.TextField()
+    category_url = models.TextField()
+
+class Aliment(models.Model):
+    aliment_id = models.IntegerField(null=True)
     name = models.TextField()
     category = models.TextField()
     picture = models.TextField()
     nutriscore = models.TextField()
     description = models.TextField()
     stores = models.TextField()
+    barcode = models.TextField()
 
-
-class User(models.Model):
-    reference = models.IntegerField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    name = models.TextField()
-    email = models.TextField()
-    password = models.TextField()
+class Substitute(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,)
+    aliment_id = models.ForeignKey(Aliment, on_delete=models.CASCADE,)
