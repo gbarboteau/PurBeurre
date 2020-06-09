@@ -8,10 +8,10 @@ from .forms import SignUpForm, ConnexionForm
 from .models import Aliment, Substitute
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db import IntegrityError
 
 
-# Create your views here.
 def index(request):
     is_connected = True
     context = {'is_connected': is_connected}
@@ -61,31 +61,46 @@ def logout_view(request):
 
 @login_required
 def search(request):
-    query = request.GET.get('query')
+    query = ""
+    queryNum = 0
+    if 'query1' in request.GET:
+        query = request.GET.get('query1')
+        queryNum = 1
+    elif 'query2' in request.GET:
+        query = request.GET.get('query2')
+        queryNum = 2
     if not query:
         aliments = Aliment.objects.all()
     else:
         aliments = Aliment.objects.filter(name__icontains=query)
     if not aliments.exists():
         aliments = Aliment.objects.filter(category__icontains=query)
+    paginator = Paginator(aliments, 9)
+    page = request.GET.get('page')
+    try:
+        aliments = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        aliments = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        aliments = paginator.page(paginator.num_pages)
     title = "Résultats pour la requête %s"%query
-    context = {
-        'aliments': aliments,
-        'title': title
-    }
+    context = {'aliments': aliments, 'title': title, 'paginate': True, 'query': query, 'queryNum': queryNum}
     template = loader.get_template('application/search.html')
     return HttpResponse(template.render(context, request=request))
 
 @login_required
 def add_product(request):
     query = request.POST.get('substitute_id', False)
-    print(query)
     my_substitute = Aliment.objects.get(pk=query)
-    this_substitute = Substitute(user_id=request.user, aliment_id=my_substitute)
-    this_substitute.save()
-    template = loader.get_template('application/index.html')
-    context = {}
-    # print(this_aliment.name)
+    try:
+        this_substitute = Substitute(user_id=request.user, aliment_id=my_substitute)
+        this_substitute.save()
+        context = {'is_added': True}
+    except IntegrityError as error:
+        context = {'is_added': False}
+    template = loader.get_template('application/add-product.html')
     return HttpResponse(template.render(context,request=request))
 
 @login_required
@@ -99,13 +114,16 @@ def aliment(request, aliment_id):
 
 @login_required
 def mesproduits(request):
+    user_id = request.user.id
+    my_substitutes = Substitute.objects.filter(user_id=user_id)
+    id_substitute_list = Substitute.objects.filter(user_id=user_id).values_list('aliment_id', flat=True)
+    aliments = Aliment.objects.filter(pk__in=id_substitute_list)
     is_connected = True
-    context = {'is_connected': is_connected}
-    template = loader.get_template('application/account.html')
+    context = {'aliments': aliments, 'is_connected': is_connected}
+    template = loader.get_template('application/mesproduits.html')
     return HttpResponse(template.render(context, request=request))
 
-def about(request):
-    is_connected = True
-    context = {'is_connected': is_connected}
-    template = loader.get_template('application/account.html')
+def mentionslegales(request):
+    context = {}
+    template = loader.get_template('application/mentionslegales.html')
     return HttpResponse(template.render(context, request=request))

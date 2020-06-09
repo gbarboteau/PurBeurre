@@ -20,5 +20,9 @@ class Aliment(models.Model):
     barcode = models.TextField()
 
 class Substitute(models.Model):
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['user_id', 'aliment_id'], name='saved_substitute')]
+
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,)
     aliment_id = models.ForeignKey(Aliment, on_delete=models.CASCADE,)

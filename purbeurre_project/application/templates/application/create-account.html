@@ -21,17 +21,16 @@
             <div class="container h-100">
                 <div class="row h-100 d-flex align-items-center justify-content-center text-center">
                     <div class="col-lg-6 text-center">
-                        <div class="mt-5" >
-                            <h3 class="h4 mb-2">Créer un compte</h3>
-                            <h2>Sign up Form</h2>
-                            <form method="post">
+                        <div class="mt-5" class="text-white-100 font-weight-light mb-5">
+                            <h2 class="h4 mb-2 text-light">Créer un compte</h2>
+                            <form method="post" class="text-light">
                               {% csrf_token %}
                               {% for field in form_sign_up %}
                                 <p>
                                   {{ field.label_tag }}<br>
                                   {{ field }}
                                   {% if field.help_text %}
-                                    <small style="color: grey">{{ field.help_text }}</small>
+                                    <small>{{ field.help_text }}</small>
                                   {% endif %}
                                   {% for error in field.errors %}
                                     <p style="color: red">{{ error }}</p>
@@ -40,8 +39,7 @@
                               {% endfor %}
                               <button type="submit">Sign up</button>
                             </form>
-
-                            <p>No account? <a href="/create-account">Let's create an account</a></p>
+                            <p class="text-light">Pas de compte ? <a href="/create-account">Créez-en un !</a></p>
                         </div>
                     </div>
                 </div>

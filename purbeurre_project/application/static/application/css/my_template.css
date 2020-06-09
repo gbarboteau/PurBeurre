@@ -26,94 +26,6 @@
 	left: 0;
 }
 
-/*i {
-    margin-left: 10px;
-    font-size: 30px;
-    height: 30px;
-    vertical-align: middle;
-}*/
-
-/*body{
-	font-family: "Open Sans", Times, serif;
-	background: url("../img/floralbkg.jpg");
-	background-repeat: repeat;
-}
-
-p{
-	font-size: 20px;
-}
-
-main > .container {
-  padding: 60px 15px 0;
-}
-
-.footer {
-  background-color: rgb(20, 20, 20);
-}
-
-.footer > .container {
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-code {
-  font-size: 100%;
-}
-
-.bkg-grey{
-	background-color: #ffccff;
-	color: white;
-}
-
-.my-top-jumbotron{
-	background-color: #ffccff;
-	color: white;
-	min-height: 100px;
-  	align-items: center;
-  	justify-content: center;
-  	padding: 30px 40px;
-}
-
-.footer{
-	min-height: 70px;
-	background-color: #ffccff;
-}
-
-#grad {
-  background-image: linear-gradient(to bottom, rgba(120,120,120,1), rgba(120,120,120,0));
-}
-
-.bg-custom-2 {
-background-image: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);
-}
-
-.vertical-center {
-  min-height: 100%;
-  min-height: 100vh;
-  width: 100%;
-}
-
-.handwritten{
-	font-family: 'Parisienne';
-	font-size: 5em;
-}
-
-.italic-title{
-	font-family: "Open Sans", Times, serif;
-	font-size: 3em;
-	font-style: italic;
-}
-
-.italic-small-title{
-	font-family: "Open Sans", Times, serif;
-	font-size: 2em;
-	font-style: italic;
-}
-
-.newsletter-p{
-	font-size : 1.6em;
-}
-
 .more-padding-bottom{
 	padding-bottom: 25px;
 }
@@ -122,36 +34,66 @@ background-image: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);
 	padding-top: 25px;
 }
 
-.text-muted a{
-	color: #e600e6;
-	text-decoration: underline;
+.nutriscore-icon {
+    background: #DE9440;
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 50%;
+    font-size: 35px;
 }
 
-.text-muted a:hover{
-	font-size: 20px;
+.mycontainer {
+  position: relative;
+  text-align: center;
+  color: white;
 }
 
-.banner-image{
-	max-height: 200px;
-	min-height: 100px;
-	width: auto;
+.nutriscore-top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
 }
 
-.title{
-	font-family: 'Parisienne';
-	font-size: 5em;
+body{
+	font-family: "Scope One", sans-serif;
+	font-size: 1.2em;
 }
 
-.tagline{
-	font-family: 'Parisienne';
+h1, h2, h3, h4{
+	font-family: "Open Sans", sans-serif;
+}
+
+.my-custom-header {
+  overflow: hidden;
+}
+.my-custom-header img {
+  height: 100px;
+}
+
+.jumbotron-fluid {
+    text-shadow: #444 0 1px 1px;
+    color: #FFF;
+    position: relative;
+    height: 40vh;
+
+    display: flex;
+    align-items: center;
+}
+
+.my-nutriscore-letter{
 	font-size: 2em;
+	font-style: bold;
 }
 
-.bkg-white{
-	background-color: white;
+html,
+body {
+  height: 100%;
 }
 
-#map {
-    height: 400px;  /* The height is 400 pixels */
-    /*width: 100%;   The width is the width of the web page */
-*
+#my-page-content {
+  min-height: 400px;
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
