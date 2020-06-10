@@ -61,14 +61,14 @@
               <div class="col-md-12 align-items-center justify-content-center text-center more-padding-top more-padding-bottom">
                 <h2><a href="https://fr.openfoodfacts.org/produit/{{ this_aliment.barcode }}">Retrouvez la fiche complète de cet aliment sur le site de l'OpenFoodFacts</a></h2>
               </div>
-            </div>
+            
 
-        {% if all_substitutes %}
+            {% if all_substitutes %}
             <!-- <div class="row more-padding-top"> -->
               <div class="col-12 text-center center-block align-items-center more-padding-top">
                 <h2>Nous vous proposons ces substituts :</h2>
               </div>
-            {% for substitute in all_substitutes %} 
+              {% for substitute in all_substitutes %} 
               <div class="col-lg-4 col-md-6 text-center center-block align-items-center more-padding-top">
                 <div class="container mycontainer">
                   <a href="/aliment/{{ substitute.id }}"><img class="img-thumbnail rounded" src="{{ substitute.picture }}" alt="{{ substitute.name }}"><br/></a>
@@ -94,5 +94,10 @@
         {% endif %}
 
 
+          </div>
+        </div>
       </div>
+
+      <div class="more-padding-bottom"></div>
+
       {% endblock %}
