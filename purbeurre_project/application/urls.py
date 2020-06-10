@@ -12,10 +12,10 @@ urlpatterns = [
     path("create-account/", views.create_account, name='create-account'),
     # path("search/", views.search, name='search'),
     url(r'^search/$', views.search, name='search'),
-    url(r'aliment/(?P<aliment_id>[0-9]+)/$', views.aliment),
+    url(r'aliment/(?P<aliment_id>[0-9]+)/$', views.aliment, name='aliment'),
     path("mesproduits/", views.mesproduits),
     url(r'^add-product/$', views.add_product, name='add_product'),
     # path("login/", views.logout_view),
-    path("logout/", views.logout_view),
+    path("logout/", views.logout_view, name="logout"),
     path("mentionslegales/", views.mentionslegales),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
