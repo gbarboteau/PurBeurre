@@ -19,7 +19,7 @@ def index(request):
     return HttpResponse(template.render(context, request=request))
 
 def account(request):
-    error = False
+    state = ""
     if request.method == "POST":
         form = ConnexionForm(request.POST)
         if form.is_valid():
@@ -29,25 +29,29 @@ def account(request):
             if user:
                 login(request, user) 
             else: 
-                error = True
+                state = "Votre username ou mot de passe est incorrect."
+        else: 
+            print(form.errors)
     else:
         form = ConnexionForm()
     template = loader.get_template('application/account.html')
     is_connected = request.user.is_authenticated
-    context = {'form': form, 'is_connected': is_connected}
+    context = {'form': form, 'state': state}
     return HttpResponse(template.render(context, request=request))
 
 def create_account(request):
-    form_sign_up = SignUpForm(request.POST)
-    print(form_sign_up.is_valid())
-    if form_sign_up.is_valid():
-        form_sign_up.save()
-        username = form_sign_up.cleaned_data.get('username')
-        email = form_sign_up.cleaned_data.get('email')
-        password = form_sign_up.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return redirect('index')
+    if request.method == 'POST':
+        form_sign_up = SignUpForm(request.POST)
+        if form_sign_up.is_valid():
+            form_sign_up.save()
+            username = form_sign_up.cleaned_data.get('username')
+            email = form_sign_up.cleaned_data.get('email')
+            password = form_sign_up.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('index')
+        else:
+            print(form_sign_up.errors)
     else:
         form_sign_up = SignUpForm()
     template = loader.get_template('application/create-account.html')

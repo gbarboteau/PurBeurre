@@ -24,7 +24,6 @@ class Command(BaseCommand):
 
 
     def category_scrapper(self, category):
-        print(category)
         fullRequest = requests.get('https://fr.openfoodfacts.org/categorie/' + str(category) + '.json')
         readableRequest = json.loads(fullRequest.text)
         cleanedData = self.clean_data(readableRequest, category)
@@ -36,7 +35,6 @@ class Command(BaseCommand):
         for i in range(all_ids):
             my_ids.append(data['products'][i]['_id'])
         my_products = []
-        # print(my_ids)
         for i in my_ids:
             my_products.append(self.aliment_scrapper(i, category))
         return my_products
@@ -44,7 +42,6 @@ class Command(BaseCommand):
     def aliment_scrapper(self, barcode, category):
         aliment_fullRequest = requests.get("https://fr.openfoodfacts.org/api/v0/product/" + barcode + ".json")
         aliment_readableRequest = json.loads(aliment_fullRequest.text)
-        # print(aliment_readableRequest)
         aliment_cleanedData = self.clean_data_aliment(aliment_readableRequest, category)
         return aliment_cleanedData
 
@@ -73,7 +70,6 @@ class Command(BaseCommand):
 
     def put_it_in_tables(self, new_data):
         my_data = new_data
-        print(my_data)
         if my_data is None:
             pass
         else:
