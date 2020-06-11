@@ -13,9 +13,9 @@ urlpatterns = [
     # path("search/", views.search, name='search'),
     url(r'^search/$', views.search, name='search'),
     url(r'aliment/(?P<aliment_id>[0-9]+)/$', views.aliment, name='aliment'),
-    path("mesproduits/", views.mesproduits),
+    path("mesproduits/", views.mesproduits, name='mesproduits'),
     url(r'^add-product/$', views.add_product, name='add_product'),
     # path("login/", views.logout_view),
     path("logout/", views.logout_view, name="logout"),
-    path("mentionslegales/", views.mentionslegales),
+    path("mentionslegales/", views.mentionslegales, name="mentionslegales"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

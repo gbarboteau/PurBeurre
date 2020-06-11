@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from .forms import SignUpForm, ConnexionForm
 from .models import Aliment, Substitute
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import IntegrityError
@@ -40,6 +40,8 @@ def account(request):
     return HttpResponse(template.render(context, request=request))
 
 def create_account(request):
+    template = loader.get_template('application/create-account.html')
+    context = {}
     if request.method == 'POST':
         form_sign_up = SignUpForm(request.POST)
         if form_sign_up.is_valid():
@@ -49,12 +51,13 @@ def create_account(request):
             password = form_sign_up.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('index')
+            # return redirect('index')
+            return HttpResponse(template.render(context, request=request))
         else:
             print(form_sign_up.errors)
     else:
         form_sign_up = SignUpForm()
-    template = loader.get_template('application/create-account.html')
+    # template = loader.get_template('application/create-account.html')
     is_connected = request.user.is_authenticated
     context = {'form_sign_up': form_sign_up, 'is_connected': is_connected}
     return HttpResponse(template.render(context, request=request))
@@ -109,7 +112,8 @@ def add_product(request):
 
 @login_required
 def aliment(request, aliment_id):
-    this_aliment = Aliment.objects.get(pk=aliment_id)
+    # this_aliment = Aliment.objects.get(pk=aliment_id)
+    this_aliment = get_object_or_404(Aliment, pk=aliment_id)
     all_substitutes = Aliment.objects.filter(category=this_aliment.category).filter(nutriscore__lt=this_aliment.nutriscore)
     print(this_aliment.nutriscore)
     template = loader.get_template('application/aliment.html')
