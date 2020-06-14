@@ -5,11 +5,14 @@ import requests
 import json
 
 class Command(BaseCommand):
-
+    """Updates the database, adding new foods for
+    all the database categories
+    """
     def handle(self, *args, **options):
         self.collect_data()
 
     def collect_data(self):
+        """Collect data for every category in the database"""
         all_categories = Category.objects.all()
         self.category_data = []
         for category in all_categories:
@@ -24,12 +27,18 @@ class Command(BaseCommand):
 
 
     def category_scrapper(self, category):
+        """Scrap data with the OpenFoodFacts API for every
+        category in the database
+        """
         fullRequest = requests.get('https://fr.openfoodfacts.org/categorie/' + str(category) + '.json')
         readableRequest = json.loads(fullRequest.text)
         cleanedData = self.clean_data(readableRequest, category)
         return cleanedData
 
     def clean_data(self, data, category):
+        """Create a list of readable data for every
+        product with the aliment_scrapper method
+        """
         my_ids = []
         all_ids = len(data['products'])
         for i in range(all_ids):
@@ -40,6 +49,10 @@ class Command(BaseCommand):
         return my_products
 
     def aliment_scrapper(self, barcode, category):
+        """Get informations for every aliment
+        we obtained with the category_scrapper
+        method
+        """
         aliment_fullRequest = requests.get("https://fr.openfoodfacts.org/api/v0/product/" + barcode + ".json")
         aliment_readableRequest = json.loads(aliment_fullRequest.text)
         aliment_cleanedData = self.clean_data_aliment(aliment_readableRequest, category)
@@ -69,6 +82,7 @@ class Command(BaseCommand):
             return my_data
 
     def put_it_in_tables(self, new_data):
+        """Put data into a readable dict"""
         my_data = new_data
         if my_data is None:
             pass

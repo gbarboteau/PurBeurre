@@ -13,12 +13,14 @@ from django.db import IntegrityError
 
 
 def index(request):
+    """Displays the index view"""
     is_connected = True
     context = {'is_connected': is_connected}
     template = loader.get_template('application/index.html')
     return HttpResponse(template.render(context, request=request))
 
 def account(request):
+    """Displays the account view and the user login form"""
     state = ""
     if request.method == "POST":
         form = ConnexionForm(request.POST)
@@ -40,6 +42,9 @@ def account(request):
     return HttpResponse(template.render(context, request=request))
 
 def create_account(request):
+    """Displays the create_account view and the user
+    creation form
+    """
     template = loader.get_template('application/create-account.html')
     context = {}
     if request.method == 'POST':
@@ -51,32 +56,34 @@ def create_account(request):
             password = form_sign_up.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            # return redirect('index')
             return HttpResponse(template.render(context, request=request))
         else:
             print(form_sign_up.errors)
     else:
         form_sign_up = SignUpForm()
-    # template = loader.get_template('application/create-account.html')
     is_connected = request.user.is_authenticated
     context = {'form_sign_up': form_sign_up, 'is_connected': is_connected}
     return HttpResponse(template.render(context, request=request))
 
 def logout_view(request):
+    """Log out the user and redirect the user to
+    the index view
+    """
     logout(request)
     return redirect('index')
 
 @login_required
 def search(request):
+    """Displays the search view for a given query"""
     query = ""
     queryNum = 0
-    if 'query1' in request.GET:
+    if 'query1' in request.GET: #if the navbar form is filled
         query = request.GET.get('query1')
         queryNum = 1
-    elif 'query2' in request.GET:
+    elif 'query2' in request.GET: #if the index page form is filled
         query = request.GET.get('query2')
         queryNum = 2
-    if not query:
+    if not query: #if no form is filled
         aliments = Aliment.objects.all()
     else:
         aliments = Aliment.objects.filter(name__icontains=query)
@@ -87,10 +94,8 @@ def search(request):
     try:
         aliments = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         aliments = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
         aliments = paginator.page(paginator.num_pages)
     title = "Résultats pour la requête %s"%query
     context = {'aliments': aliments, 'title': title, 'paginate': True, 'query': query, 'queryNum': queryNum}
@@ -99,6 +104,9 @@ def search(request):
 
 @login_required
 def add_product(request):
+    """Displays the add_product view and adds
+    a substitute to a user's list
+    """
     query = request.POST.get('substitute_id', False)
     my_substitute = Aliment.objects.get(pk=query)
     try:
@@ -112,7 +120,9 @@ def add_product(request):
 
 @login_required
 def aliment(request, aliment_id):
-    # this_aliment = Aliment.objects.get(pk=aliment_id)
+    """Displays the aliment view for a
+    given product
+    """
     this_aliment = get_object_or_404(Aliment, pk=aliment_id)
     all_substitutes = Aliment.objects.filter(category=this_aliment.category).filter(nutriscore__lt=this_aliment.nutriscore)
     print(this_aliment.nutriscore)
@@ -122,6 +132,9 @@ def aliment(request, aliment_id):
 
 @login_required
 def mesproduits(request):
+    """Displays the mesproduits view and all the substitutes
+    for the connected user
+    """
     user_id = request.user.id
     my_substitutes = Substitute.objects.filter(user_id=user_id)
     id_substitute_list = Substitute.objects.filter(user_id=user_id).values_list('aliment_id', flat=True)
@@ -132,6 +145,7 @@ def mesproduits(request):
     return HttpResponse(template.render(context, request=request))
 
 def mentionslegales(request):
+    """Displays the mentionslegales view"""
     context = {}
     template = loader.get_template('application/mentionslegales.html')
     return HttpResponse(template.render(context, request=request))
