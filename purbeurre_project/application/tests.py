@@ -3,6 +3,7 @@ from django.test.client import RequestFactory
 from django.urls import reverse
 from .models import Category, Aliment, Substitute
 from django.contrib.auth.models import User
+from django.core import mail
 
 
 class IndexPageTestCase(TestCase):
@@ -193,3 +194,16 @@ class MentionsLegalesTestCase(TestCase):
         """Checks if the page is accessible"""
         response = self.client.get(reverse('mentionslegales'))
         self.assertEqual(response.status_code, 200)
+
+class ResetPasswordTestCase(TestCase):
+    def test_reset_password_page(self):
+        response = self.client.get(reverse('password_reset'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_send_reset_password(self):
+        user = User.objects.create_user(username="Yoshi54", email="g.barboteau@gmail.com", password="FANDECYRILHANOUNA")
+        user.save()
+        response = self.client.post(reverse('password_reset'),{'email':'g.barboteau@gmail.com'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Password reset on testserver')
