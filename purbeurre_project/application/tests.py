@@ -132,39 +132,6 @@ class AlimentTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-# class AddSubstituteTestCase(TestCase):
-
-    
-
-    # def setUp(self):
-        # self.factory = RequestFactory()
-        # user = User.objects.create_user(username="Yoshi54", email="yoshi54@caramail.com", password="FANDECYRILHANOUNA")
-        # user.save()
-        # aliment1 = Aliment.objects.create(name="Coca-Cola", category="Soda", nutriscore="e")
-        # aliment1.save()
-        # aliment2 = Aliment.objects.create(name="Coca Light", category="Soda", nutriscore="d")
-        # aliment2.save()
-
-    # def test_add_substitute_not_logged_in(self):
-    #     pass
-
-    # def test_add_substitute_logged_in(self):
-    #     user = User.objects.create_user('Yoshi54', 'yoshi54@caramail.com', 'FANDECYRILHANOUNA')
-    #     self.client.login(username="Yoshi54", password="FANDECYRILHANOUNA")
-    #     # request = self.factory.get('/')        # or any other methods
-    #     # request.user = User.objects.get(username="Yoshi54")
-    #     print(str(user.id) + " est connecté")
-    #     aliment = Aliment.objects.get_or_create(name="Coca Light")[0]
-    #     aliment.save()
-    #     substitute = Substitute(user_id=user, aliment_id=aliment)
-    #     substitute.save()
-    #     print(str(user.id) + " est connecté")
-    #     # query = request.POST.get(substitute, False)
-    #     # my_substitute = Substitute.objects.get(aliment_id=aliment)
-    #     response = self.client.post(reverse('add_product'), {'query': aliment})
-    #     self.assertEqual(response.status_code, 200)
-
-
 class MesProduitsTestCase(TestCase):
     """Tests of the mesproduits view"""
     def setUp(self):
@@ -195,15 +162,81 @@ class MentionsLegalesTestCase(TestCase):
         response = self.client.get(reverse('mentionslegales'))
         self.assertEqual(response.status_code, 200)
 
+
 class ResetPasswordTestCase(TestCase):
+    """Tests for the password reset functionnality"""
     def test_reset_password_page(self):
+        """Checks if the page is accessible"""
         response = self.client.get(reverse('password_reset'))
         self.assertEqual(response.status_code, 200)
 
     def test_send_reset_password(self):
+        """Check if an email has been sent"""
         user = User.objects.create_user(username="Yoshi54", email="g.barboteau@gmail.com", password="FANDECYRILHANOUNA")
         user.save()
         response = self.client.post(reverse('password_reset'),{'email':'g.barboteau@gmail.com'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Password reset on testserver')
+
+
+class AddSubstituteTestCase(TestCase):
+    """Test for the adding substitute functionnality"""
+    def setUp(self):
+        """Set up the tests"""
+        user = User.objects.create_user(username="Yoshi54", email="yoshi54@caramail.com", password="FANDECYRILHANOUNA")
+        user.save()
+        aliment1 = Aliment.objects.create(name="Coca-Cola", category="Soda", nutriscore="e")
+        aliment1.save()
+        aliment2 = Aliment.objects.create(name="Coca Light", category="Soda", nutriscore="d")
+        aliment2.save()
+
+    def test_add_substitute_not_logged_in(self):
+        """Checks if the page is not accessible when
+        users aren't logged in
+        """
+        aliment = Aliment.objects.get_or_create(name="Coca-Cola", category="Soda", nutriscore="e")
+        response = self.client.get('/add-product/' + str(aliment[0].id) + '/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_add_substitute_logged_in(self):
+        """Checks if the page is accessible when
+        users are logged in
+        """
+        self.client.login(username="Yoshi54", password="FANDECYRILHANOUNA")
+        aliment = Aliment.objects.get_or_create(name="Coca Light")
+        response = self.client.get('/add-product/' + str(aliment[0].id) + '/')
+        self.assertEqual(response.status_code, 200)
+
+
+class RemoveSubstituteTestCase(TestCase):
+    """Test for the removing substitute functionnality"""
+    def setUp(self):
+        """Set up the tests"""
+        user = User.objects.create_user(username="Yoshi54", email="yoshi54@caramail.com", password="FANDECYRILHANOUNA")
+        user.save()
+        aliment = Aliment.objects.create(name="Coca-Cola", category="Soda", nutriscore="e")
+        aliment.save()
+        substitute = Substitute.objects.create(user_id=user, aliment_id=aliment)
+        substitute.save()
+
+    def test_add_substitute_not_logged_in(self):
+        """Checks if the page is not accessible when
+        users aren't logged in
+        """
+        my_user = User.objects.get(username="Yoshi54")
+        my_aliment = Aliment.objects.get(name="Coca-Cola")
+        my_substitute = Substitute.objects.get(user_id=my_user, aliment_id=my_aliment)
+        response = self.client.get('/remove-product/' + str(my_substitute.aliment_id_id) + '/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_add_substitute_logged_in(self):
+        """Checks if the page is accessible when
+        users are logged in
+        """
+        self.client.login(username="Yoshi54", password="FANDECYRILHANOUNA")
+        my_user = User.objects.get(username="Yoshi54")
+        my_aliment = Aliment.objects.get(name="Coca-Cola")
+        my_substitute = Substitute.objects.get(user_id=my_user, aliment_id=my_aliment)
+        response = self.client.get('/remove-product/' + str(my_substitute.aliment_id_id) + '/')
+        self.assertEqual(response.status_code, 200)

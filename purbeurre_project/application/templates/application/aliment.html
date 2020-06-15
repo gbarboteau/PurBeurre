@@ -75,12 +75,18 @@
                   <!-- <div class="nutriscore-top-right">{{ substitute.nutriscore|upper }}</div> -->
                   <div class="nutriscore-top-right"><span class="nutriscore-icon">{{ substitute.nutriscore|upper }}</span></div>
                   <a href="/aliment/{{ substitute.id }}">{{ substitute.name }}</a>
-                  <form class="save-link" action="{% url 'add_product' %}" method="post">
+                  <!-- <form class="save-link" action="{% url 'add_product' aliment_id=substitute.id %}" method="post">
                       {% csrf_token %}
                       <input type="hidden" name="substitute_id" value="{{ substitute.id }}">
                       <button type="submit" class="btn btn-outline-dark">
                           <i class="fas fa-save"></i> Sauvegarder
                       </button>
+                  </form> -->
+
+                  <form action="{% url 'add_product' aliment_id=substitute.id %}">
+                    <button type="submit" class="btn btn-outline-dark">
+                      <i class="fas fa-save"></i> Sauvegarder
+                    </button>
                   </form>
                 </div>
               </div>
