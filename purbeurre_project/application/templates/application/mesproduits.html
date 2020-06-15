@@ -34,6 +34,11 @@
                               <img class="img-thumbnail rounded" src="{{ aliment.picture }}" alt="{{ aliment.name }}">
                             </a>
                             <a href="/aliment/{{ aliment.id }}"><h3>{{ aliment.name }}</a></h3>
+                            <form action="{% url 'remove_product' aliment_id=aliment.id %}">
+                                <button type="submit" class="btn btn-outline-dark">
+                                  <i class="fas fa-trash-alt"></i> Supprimer
+                                </button>
+                          </form>
                         </div>
                         {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
                     {% endfor %}

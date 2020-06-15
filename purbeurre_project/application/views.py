@@ -103,12 +103,11 @@ def search(request):
     return HttpResponse(template.render(context, request=request))
 
 @login_required
-def add_product(request):
+def add_product(request, aliment_id):
     """Displays the add_product view and adds
     a substitute to a user's list
     """
-    query = request.POST.get('substitute_id', False)
-    my_substitute = Aliment.objects.get(pk=query)
+    my_substitute = get_object_or_404(Aliment, pk=aliment_id)
     try:
         this_substitute = Substitute(user_id=request.user, aliment_id=my_substitute)
         this_substitute.save()
@@ -116,6 +115,20 @@ def add_product(request):
     except IntegrityError as error:
         context = {'is_added': False}
     template = loader.get_template('application/add-product.html')
+    return HttpResponse(template.render(context,request=request))
+
+@login_required
+def remove_product(request, aliment_id):
+    """Displays the remove_product view and removes
+    a substitute from a user's list
+    """
+    my_substitute = get_object_or_404(Substitute, user_id=request.user, aliment_id=aliment_id)
+    try:
+        my_substitute.delete()
+        context = {'is_deleted': True}
+    except IntegrityError as error:
+        context = {'is_deleted': False}
+    template = loader.get_template('application/remove-product.html')
     return HttpResponse(template.render(context,request=request))
 
 @login_required
