@@ -1,19 +1,15 @@
-language: python # => 1
+python:
+    - '3.7'
 
-python: # => 2
-  - '3.7'
+before_script:
+    - 'pip install -r requirements.txt'
+        
+env: DJANGO_SETTINGS_MODULE='purbeurre_project.settings'
 
-services: # => 3
-  - postgresql
+services:
+    - postgresql
 
-env: # => 4
+env: DJANGO_SETTINGS_MODULE=purbeurre_project.settings.travis
 
-  - DJANGO=3.0 DB=postgres
-
-install: # => 5
-
-  - pip install -r requirements.txt
-
-script: # => 7
-
-  - python manage.py test
+script: 
+    - python manage.py test
