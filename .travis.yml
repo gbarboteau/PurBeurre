@@ -1,0 +1,19 @@
+language: python # => 1
+
+python: # => 2
+  - '3.7'
+
+services: # => 3
+  - postgresql
+
+env: # => 4
+
+  - DJANGO=3.0 DB=postgres
+
+install: # => 5
+
+  - pip install -r requirements.txt
+
+script: # => 7
+
+  - python manage.py test
