@@ -66,7 +66,7 @@ SQLAlchemy==1.3.16
 sqlparse==0.3.1
 tqdm==4.40.1
 Twisted==20.3.0
-urllib3==1.25.7
+urllib3==1.26.5
 virtualenv==16.7.9
 w3lib==1.21.0
 Werkzeug==1.0.1
