@@ -37,7 +37,7 @@ matplotlib==3.1.2
 mccabe==0.6.1
 mysql-connector-python==8.0.19
 networkx==2.4
-numpy==1.17.4
+numpy==1.22.0
 pandas==0.25.3
 parsel==1.5.2
 Protego==0.1.15
